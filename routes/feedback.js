@@ -1,9 +1,10 @@
+// backend/routes/feedback.js
 import express from "express";
 import Feedback from "../models/Feedback.js";
 
 const router = express.Router();
 
-// ✅ Submit feedback
+// ✅ POST feedback
 router.post("/", async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -20,11 +21,11 @@ router.post("/", async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Feedback submitted successfully!",
+      message: "Feedback submitted successfully",
       feedback
     });
   } catch (error) {
-    console.error("❌ Feedback error:", error);
+    console.error("❌ Feedback Error:", error);
     res.status(500).json({
       success: false,
       message: "Server error",
@@ -33,7 +34,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ✅ Get all feedbacks (admin use)
+// ✅ GET all feedbacks
 router.get("/", async (req, res) => {
   try {
     const feedbacks = await Feedback.find().sort({ createdAt: -1 });
