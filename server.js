@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
+import orderRoutes from "./routes/orders.js";
 import feedbackRoutes from "./routes/feedback.js";
+
 
 dotenv.config(); // ✅ Load environment variables early
 
@@ -24,7 +26,9 @@ mongoose
 
 // ✅ API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/orders", orderRoutes);
 app.use("/api/feedback", feedbackRoutes);
+
 
 // ✅ Test route (optional)
 app.get("/", (req, res) => {

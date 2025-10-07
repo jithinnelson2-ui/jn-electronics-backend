@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   items: [
     {
-      productId: String,
       name: String,
       quantity: Number,
       price: Number,
     },
   ],
-  total: Number,
-  status: {
-    type: String,
-    default: "Pending", // 👈 default status
-    enum: ["Pending", "Processing", "Delivered", "Cancelled"],
-  },
+  totalAmount: { type: Number, required: true },
+  address: { type: String },
+  paymentMethod: { type: String, default: "COD" },
+  status: { type: String, default: "Pending" },
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+export default Order;

@@ -3,30 +3,67 @@ import Order from "../models/Order.js";
 
 const router = express.Router();
 
-// ✅ Update order status
-router.put("/update/:id", async (req, res) => {
+// ✅ Place a new order
+router.post("/", async (req, res) => {
   try {
-    const { status } = req.body;
+    const { userId, items, totalAmount, address, paymentMethod } = req.body;
 
-    const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.id,
-      { status },
-      { new: true } // return the updated document
-    );
-
-    if (!updatedOrder) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+    if (!userId || !items || !totalAmount) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
+      });
     }
 
-    res.json({
+    const order = new Order({
+      userId,
+      items,
+      totalAmount,
+      address,
+      paymentMethod: paymentMethod || "COD",
+      status: "Pending",
+      createdAt: new Date(),
+    });
+
+    await order.save();
+
+    res.status(201).json({
       success: true,
-      message: "Order status updated successfully",
-      order: updatedOrder,
+      message: "Order placed successfully!",
+      order,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error updating order status",
+      message: "Server error",
+      error: error.message,
+    });
+  }
+});
+
+// ✅ Get all orders (for admin)
+router.get("/", async (req, res) => {
+  try {
+    const orders = await Order.find().populate("userId", "name email");
+    res.json({ success: true, orders });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+});
+
+// ✅ Get orders by user ID
+router.get("/:userId", async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.params.userId });
+    res.json({ success: true, orders });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
       error: error.message,
     });
   }
