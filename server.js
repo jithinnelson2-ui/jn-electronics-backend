@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import authRoutes from "./routes/authRoutes.js";
+import authRoutes from './routes/auth.js';
+
 
 dotenv.config(); // ✅ Make sure this is before using process.env
 
