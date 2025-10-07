@@ -3,7 +3,7 @@ import Feedback from "../models/Feedback.js";
 
 const router = express.Router();
 
-// POST /api/feedback
+// ✅ Submit feedback
 router.post("/", async (req, res) => {
   try {
     const { name, email, message } = req.body;
@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     if (!name || !email || !message) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: "All fields are required"
       });
     }
 
@@ -20,14 +20,29 @@ router.post("/", async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Feedback submitted successfully",
+      message: "Feedback submitted successfully!",
+      feedback
     });
   } catch (error) {
-    console.error("Feedback error:", error);
+    console.error("❌ Feedback error:", error);
     res.status(500).json({
       success: false,
       message: "Server error",
-      error: error.message,
+      error: error.message
+    });
+  }
+});
+
+// ✅ Get all feedbacks (admin use)
+router.get("/", async (req, res) => {
+  try {
+    const feedbacks = await Feedback.find().sort({ createdAt: -1 });
+    res.json({ success: true, feedbacks });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message
     });
   }
 });

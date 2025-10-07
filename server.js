@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from './routes/auth.js';
-import feedbackRoutes from "./routes/feedbackRoutes.js";
+import feedbackRoutes from "./routes/feedback.js";
+
 
 dotenv.config(); // ✅ Make sure this is before using process.env
 
