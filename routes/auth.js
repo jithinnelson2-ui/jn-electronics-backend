@@ -2,13 +2,8 @@ import express from 'express';
 import User from '../models/User.js';
 
 const router = express.Router();
-// Alias route for signup (optional)
-router.post('/signup', async (req, res) => {
-    return res.redirect(307, '/api/auth/register');
-  });
-  
 
-// Register user
+// ✅ Register user
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, type, address } = req.body;
@@ -52,7 +47,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login user
+// ✅ Login user
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
