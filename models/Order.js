@@ -13,12 +13,24 @@ const orderSchema = new mongoose.Schema({
       price: Number,
     },
   ],
-  totalAmount: { type: Number, required: true },
-  address: { type: String },
-  paymentMethod: { type: String, default: "COD" },
-  status: { type: String, default: "Pending" },
-  createdAt: { type: Date, default: Date.now },
-});
+  totalAmount: {
+    type: Number,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  paymentMethod: {
+    type: String,
+    enum: ["COD", "Card", "UPI"],
+    default: "COD",
+  },
+  status: {
+    type: String,
+    enum: ["Pending", "Confirmed", "Shipped", "Delivered"],
+    default: "Pending",
+  },
+}, { timestamps: true });
 
-const Order = mongoose.model("Order", orderSchema);
-export default Order;
+export default mongoose.model("Order", orderSchema);
