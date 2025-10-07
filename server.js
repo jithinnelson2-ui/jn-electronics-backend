@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from './routes/auth.js';
-
+import feedbackRoutes from "./routes/feedbackRoutes.js";
 
 dotenv.config(); // ✅ Make sure this is before using process.env
 
@@ -25,3 +25,6 @@ app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+
+app.use("/api/feedback", feedbackRoutes);
